@@ -78,13 +78,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected String getWelcomeMessage(String emailAddress, String role) {
-        //buggy method, fix the bug!
-        return null;
+        return "Hi there! Your role is: " + role + ". A welcome email was sent to " + emailAddress + ".";
     }
 
+
     protected void move2WelcomeActivity(String welcomeMessage) {
-        //incomplete method, add the feature!
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.putExtra(WELCOME_MESSAGE, welcomeMessage);
+        startActivity(intent);
+        finish();
     }
+
+
 
     protected void saveCredentials(String emailAddress, String password, String role) {
         //Incomplete method, add the feature.

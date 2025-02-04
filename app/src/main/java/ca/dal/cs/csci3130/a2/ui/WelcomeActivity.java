@@ -28,8 +28,17 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     protected void showWelcomeMessage() {
-        //incomplete method, add the feature!
+        TextView welcomeLabel = findViewById(R.id.welcomeLabel);  // Ensure this ID exists in XML
+        String message = getIntent().getStringExtra(MainActivity.WELCOME_MESSAGE);
+
+        if (message != null && !message.isEmpty()) {
+            welcomeLabel.setText(message);
+        } else {
+            welcomeLabel.setText("Welcome!");  // Default message if intent extra is missing
+        }
     }
+
+
 
     protected FirebaseDatabase getDatabase() {
         //buggy method, fix the bug!

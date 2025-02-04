@@ -54,17 +54,26 @@ public class UIAutomatorTest {
     public void checkIfMoved2WelcomePage() throws UiObjectNotFoundException {
         UiObject emailBox = device.findObject(new UiSelector().text("Email"));
         emailBox.setText("abc.123@dal.ca");
+
         UiObject passwordBox = device.findObject(new UiSelector().text("Password"));
         passwordBox.setText("pass123!@");
+
         UiObject roleSpinner = device.findObject(new UiSelector().text("Select your role"));
         roleSpinner.click();
         UiObject buyerRole = device.findObject(new UiSelector().resourceId("android:id/text1").text("Buyer"));
         buyerRole.click();
+
         UiObject registerButton = device.findObject(new UiSelector().text("REGISTER"));
         registerButton.clickAndWaitForNewWindow();
-        UiObject welcomeLabel = device.findObject(new UiSelector().textContains("Hi there!"));
-        assertTrue(welcomeLabel.exists());
+
+        // 🔹 Add delay to allow UI transition
+        device.wait(Until.hasObject(By.textContains("Hi there! Your role is:")), 5000);
+
+        UiObject welcomeLabel = device.findObject(new UiSelector().textContains("Hi there! Your role is:"));
+        assertTrue("Welcome message not found!", welcomeLabel.exists());
     }
+
+
 
     @Test
     public void checkIfCredentialsAreRetrieved() throws UiObjectNotFoundException {

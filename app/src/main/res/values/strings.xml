@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">A2</string>
+    <string name="action_settings">Settings</string>
+    <!--string constants used by the application-->
+    <string name="EMPTY_EMAIL_ADDRESS">Empty email address</string>
+    <string name="INVALID_EMAIL_ADDRESS">Invalid email address</string>
+    <string name="INVALID_DAL_EMAIL">Invalid DAL email address</string>
+    <string name="INVALID_PASSWORD">Invalid password</string>
+    <string name="INVALID_ROLE">Invalid user role</string>
+    <string name="FIREBASE_DB_URL">[ENTER YOUR FIREBASE DATABASE URL HERE]</string>
+    <string name="account_registration">Account Registration</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="retrieve_credentials">Retrieve Credentials</string>
+</resources>

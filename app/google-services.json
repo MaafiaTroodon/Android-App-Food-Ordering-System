@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "949206994936",
+    "firebase_url": "https://csci3130-winter2025-a2-default-rtdb.firebaseio.com",
+    "project_id": "csci3130-winter2025-a2",
+    "storage_bucket": "csci3130-winter2025-a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949206994936:android:8459b64fc21c4927dd900d",
+        "android_client_info": {
+          "package_name": "ca.dal.cs.csci3130.a2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj8qPeeMv0_T27gJwhrciJLtQTQqdxSmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -105,7 +105,7 @@ public class EspressoTest {
     @Test
     public void checkIfRoleIsValid() {
         onView(withId(R.id.emailBox)).perform(typeText("abc.123@dal.ca"));
-        onView(withId(R.id.passwordBox)).perform(typeText("paws183!@"));
+        onView(withId(R.id.passwordBox)).perform(typeText("pass123!@"));
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Buyer"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
@@ -114,7 +114,12 @@ public class EspressoTest {
 
     @Test
     public void checkIfRoleIsNotValid() {
-        //inappropriate test, redesign the test!
-        assertEquals(2+2, 5);
+        onView(withId(R.id.emailBox)).perform(typeText("abc.123@dal.ca"));
+        onView(withId(R.id.passwordBox)).perform(typeText("pass123!@"));
+        onView(withId(R.id.roleSpinner)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Select your role"))).perform(click());
+        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_ROLE)));
     }
+
 }

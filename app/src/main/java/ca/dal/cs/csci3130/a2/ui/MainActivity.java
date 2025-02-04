@@ -96,23 +96,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String password = getPassword();
         String role = getRole();
 
+        CredentialValidator validator = new CredentialValidator();
+
         if (emailAddress.isEmpty()) {
             setStatusMessage(getResources().getString(R.string.EMPTY_EMAIL_ADDRESS));
-        } else if (!CredentialValidator.isValidEmailAddress(emailAddress)) {
+        } else if (!validator.isValidEmailAddress(emailAddress)) {
             setStatusMessage(getResources().getString(R.string.INVALID_EMAIL_ADDRESS));
-        } else if (!CredentialValidator.isDALEmailAddress(emailAddress)) {
+        } else if (!validator.isDALEmailAddress(emailAddress)) {
             setStatusMessage(getResources().getString(R.string.INVALID_DAL_EMAIL));
-        } else if (!CredentialValidator.isValidPassword(password)) {
+        } else if (!validator.isValidPassword(password)) {
             setStatusMessage(getResources().getString(R.string.INVALID_PASSWORD));
-        } else if (!CredentialValidator.isValidRole(role)) {
+        } else if (!validator.isValidRole(role)) {   // 🔹 Add Role Validation
             setStatusMessage(getResources().getString(R.string.INVALID_ROLE));
         } else {
             // ✅ If everything is valid, clear the status message
             setStatusMessage("");
-
-            // Proceed to next step (e.g., registration logic)
             move2WelcomeActivity(getWelcomeMessage(emailAddress, role));
         }
     }
+
 
 }

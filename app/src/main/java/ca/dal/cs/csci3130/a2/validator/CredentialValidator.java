@@ -27,7 +27,8 @@ public class CredentialValidator {
     }
 
 
-    public static boolean isValidRole(String role) {
-        return !role.equals("Select your role");
+    public boolean isValidRole(String role) {
+        return role.equals("Buyer") || role.equals("Seller");
     }
+
 }

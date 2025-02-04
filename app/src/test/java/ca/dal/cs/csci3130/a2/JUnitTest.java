@@ -61,13 +61,16 @@ public class JUnitTest {
 
     @Test
     public void checkIfRoleIsValid() {
-        //inappropriate test, redesign the test!
-        assertTrue(false);
+        assertTrue(validator.isValidRole("Buyer"));
+        assertTrue(validator.isValidRole("Seller"));
     }
 
     @Test
     public void checkIfRoleIsNotValid() {
         assertFalse(validator.isValidRole("Select your role"));
+        assertFalse(validator.isValidRole("Admin"));
+        assertFalse(validator.isValidRole(""));
     }
+
 
 }

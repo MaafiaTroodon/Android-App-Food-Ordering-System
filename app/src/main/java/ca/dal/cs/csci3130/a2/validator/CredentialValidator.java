@@ -21,10 +21,11 @@ public class CredentialValidator {
     }
 
     public static boolean isValidPassword(String password) {
-        // Password must have at least 7 characters, 1 digit, and at least 2 special characters (!@#)
-        String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#].*[!@#])[A-Za-z\\d!@#]{7,}$";
+        // Password must have at least 7 characters, 1 digit, and at least 1 special character (!@#)
+        String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#])[A-Za-z\\d!@#]{7,}$";
         return password.matches(PASSWORD_REGEX);
     }
+
 
 
     public boolean isValidRole(String role) {

@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "949206994936",
-    "firebase_url": "https://csci3130-winter2025-a2-default-rtdb.firebaseio.com",
-    "project_id": "csci3130-winter2025-a2",
-    "storage_bucket": "csci3130-winter2025-a2.firebasestorage.app"
+    "project_number": "849463519038",
+    "firebase_url": "https://foodorderingapp-798a4-default-rtdb.firebaseio.com",
+    "project_id": "foodorderingapp-798a4",
+    "storage_bucket": "foodorderingapp-798a4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:949206994936:android:8459b64fc21c4927dd900d",
+        "mobilesdk_app_id": "1:849463519038:android:3d6ce54afc8b401fbe6e6f",
         "android_client_info": {
           "package_name": "ca.dal.cs.csci3130.a2"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDj8qPeeMv0_T27gJwhrciJLtQTQqdxSmI"
+          "current_key": "AIzaSyCGlasVf7gnbBM3gZZZLWd4lWa6bmMZMDc"
         }
       ],
       "services": {

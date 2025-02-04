@@ -8,31 +8,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ca.dal.cs.csci3130.a2.validator.CredentialValidator;
 import ca.dal.cs.csci3130.a2.firebase.FirebaseCRUD;
 import ca.dal.cs.csci3130.a2.R;
 import ca.dal.cs.csci3130.a2.util.PasswordUtility;
+import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static String WELCOME_MESSAGE = "ca.dal.csci3130.a2.welcome";
-    FirebaseCRUD crud;
+    public static String WELCOME_MESSAGE = "ca.dal.cs.csci3130.a2.welcome";
+    private FirebaseCRUD crud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
         this.loadRoleSpinner();
         this.setupRegistrationButton();
-        this.crud = new FirebaseCRUD(getDatabase());
+        this.crud = new FirebaseCRUD();
     }
 
     public void loadRoleSpinner() {
@@ -50,11 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupRegistrationButton() {
         Button registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(this);
-    }
-
-    protected FirebaseDatabase getDatabase() {
-        //buggy method, fix the bug!
-        return null;
     }
 
     protected String getEmailAddress() {
@@ -81,19 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return "Hi there! Your role is: " + role + ". A welcome email was sent to " + emailAddress + ".";
     }
 
-
-    protected void move2WelcomeActivity(String welcomeMessage) {
+    protected void move2WelcomeActivity(String welcomeMessage, String emailAddress) {
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.putExtra(WELCOME_MESSAGE, welcomeMessage);
+        intent.putExtra("EMAIL", emailAddress);
         startActivity(intent);
         finish();
     }
 
-
-
-    protected void saveCredentials(String emailAddress, String password, String role) {
-        //Incomplete method, add the feature.
-    }
 
     @Override
     public void onClick(View view) {
@@ -111,14 +99,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             setStatusMessage(getResources().getString(R.string.INVALID_DAL_EMAIL));
         } else if (!validator.isValidPassword(password)) {
             setStatusMessage(getResources().getString(R.string.INVALID_PASSWORD));
-        } else if (!validator.isValidRole(role)) {   // 🔹 Add Role Validation
+        } else if (!validator.isValidRole(role)) {
             setStatusMessage(getResources().getString(R.string.INVALID_ROLE));
         } else {
-            // ✅ If everything is valid, clear the status message
+            // ✅ Save user details in Firebase
+            crud.saveUser(emailAddress, password, role);
+
+            // ✅ Move to Welcome Screen
             setStatusMessage("");
-            move2WelcomeActivity(getWelcomeMessage(emailAddress, role));
+            move2WelcomeActivity(getWelcomeMessage(emailAddress, role), emailAddress);
+
         }
     }
-
-
 }

@@ -6,8 +6,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import ca.dal.cs.csci3130.a2.util.PasswordUtility; // ✅ Import PasswordUtility
 
 public class FirebaseCRUD {
     private final DatabaseReference databaseReference;
@@ -18,23 +17,9 @@ public class FirebaseCRUD {
     }
 
     public void saveUser(String email, String password, String role) {
-        String hashedPassword = hashPassword(password);
+        String hashedPassword = PasswordUtility.makeHash(password); // ✅ Now using PasswordUtility
         User user = new User(email, hashedPassword, role);
         databaseReference.child(email.replace(".", "_")).setValue(user);
-    }
-
-    private String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                hexString.append(String.format("%02x", b));
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        }
     }
 
     public void retrieveUser(String email, final UserCallback callback) {
@@ -56,7 +41,6 @@ public class FirebaseCRUD {
         void onCallback(User user);
     }
 
-    // ✅ FIXED: Added missing User class
     public static class User {
         public String email;
         public String password;

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import ca.dal.cs.csci3130.a2.firebase.FirebaseCRUD;
 import ca.dal.cs.csci3130.a2.R;
+import ca.dal.cs.csci3130.a2.validator.CredentialValidator;
 import android.util.Log;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -48,22 +49,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
         crud.retrieveUser(emailAddress, user -> {
             if (user != null) {
-                String message = makeCredentialMessage(user.email, user.password, user.role);
+                // Now using `CredentialValidator.formatCredentials()`
+                String message = CredentialValidator.formatCredentials(user.email, user.password, user.role);
                 showRetrievedCredentials(view, message);
             } else {
                 Snackbar.make(view, "User not found in the database.", Snackbar.LENGTH_LONG).show();
             }
         });
     }
-
-
-        protected String makeCredentialMessage(String emailAddress, String passwordHash, String role) {
-            return "Email: " + emailAddress + "\n" +
-                    "Password Hash: " + passwordHash + "\n" +
-                    "Role: " + role;
-        }
-
-
 
     protected void showRetrievedCredentials(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();

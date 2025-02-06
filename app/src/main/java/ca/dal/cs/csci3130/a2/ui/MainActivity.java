@@ -17,6 +17,7 @@ import ca.dal.cs.csci3130.a2.firebase.FirebaseCRUD;
 import ca.dal.cs.csci3130.a2.R;
 import ca.dal.cs.csci3130.a2.util.PasswordUtility;
 import com.google.firebase.FirebaseApp;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,16 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return roleSpinner.getSelectedItem().toString().trim();
     }
 
-    protected void setStatusMessage(String message) {
-        TextView statusLabel = findViewById(R.id.statusLabel);
-        statusLabel.setText(message.trim());
-    }
-
-    protected String getWelcomeMessage(String emailAddress, String role) {
-        return "Hi there! Your role is: " + role + ". A welcome email was sent to " + emailAddress + ".";
-    }
-
     protected void move2WelcomeActivity(String welcomeMessage, String emailAddress) {
+        Log.d("DEBUG", "Moving to WelcomeActivity with email: " + emailAddress);
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.putExtra(WELCOME_MESSAGE, welcomeMessage);
         intent.putExtra("EMAIL", emailAddress);
@@ -82,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finish();
     }
 
+    protected String getWelcomeMessage(String emailAddress, String role) {
+        return "Hi there! Your role is: " + role + ". A welcome email was sent to " + emailAddress + ".";
+    }
 
     @Override
     public void onClick(View view) {
@@ -92,23 +88,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CredentialValidator validator = new CredentialValidator();
 
         if (emailAddress.isEmpty()) {
-            setStatusMessage(getResources().getString(R.string.EMPTY_EMAIL_ADDRESS));
+            setStatusMessage("Email address cannot be empty.");
         } else if (!validator.isValidEmailAddress(emailAddress)) {
-            setStatusMessage(getResources().getString(R.string.INVALID_EMAIL_ADDRESS));
+            setStatusMessage("Invalid email address format.");
         } else if (!validator.isDALEmailAddress(emailAddress)) {
-            setStatusMessage(getResources().getString(R.string.INVALID_DAL_EMAIL));
+            setStatusMessage("Email must be a Dalhousie email.");
         } else if (!validator.isValidPassword(password)) {
-            setStatusMessage(getResources().getString(R.string.INVALID_PASSWORD));
+            setStatusMessage("Invalid password format.");
         } else if (!validator.isValidRole(role)) {
-            setStatusMessage(getResources().getString(R.string.INVALID_ROLE));
+            setStatusMessage("Invalid role selection.");
         } else {
-            // ✅ Save user details in Firebase
             crud.saveUser(emailAddress, password, role);
-
-            // ✅ Move to Welcome Screen
             setStatusMessage("");
             move2WelcomeActivity(getWelcomeMessage(emailAddress, role), emailAddress);
-
         }
+    }
+
+    protected void setStatusMessage(String message) {
+        TextView statusLabel = findViewById(R.id.statusLabel);
+        statusLabel.setText(message.trim());
     }
 }

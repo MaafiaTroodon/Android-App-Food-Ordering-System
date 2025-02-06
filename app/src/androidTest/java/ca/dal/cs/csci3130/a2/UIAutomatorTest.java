@@ -74,21 +74,36 @@ public class UIAutomatorTest {
     }
 
 
-
     @Test
     public void checkIfCredentialsAreRetrieved() throws UiObjectNotFoundException {
-        //buggy test, fix the bug!
+        // Ensure we are on the MainActivity (Registration Page)
         UiObject emailBox = device.findObject(new UiSelector().text("Email"));
-        emailBox.setText("abc.123@dal.ca");
+        emailBox.setText("test.user@dal.ca");
+
         UiObject passwordBox = device.findObject(new UiSelector().text("Password"));
-        passwordBox.setText("pass123!@");
+        passwordBox.setText("Pass123!@");
+
         UiObject roleSpinner = device.findObject(new UiSelector().text("Select your role"));
         roleSpinner.click();
-        UiObject buyerRole = device.findObject(new UiSelector().resourceId("android:id/text1").text("Seller"));
+        UiObject buyerRole = device.findObject(new UiSelector().resourceId("android:id/text1").text("Buyer"));
         buyerRole.click();
+
         UiObject registerButton = device.findObject(new UiSelector().text("REGISTER"));
         registerButton.clickAndWaitForNewWindow();
-        UiObject emailLabel=device.findObject(new UiSelector().textStartsWith("abc.123@dal.ca-"));
-        assertTrue(emailLabel.exists());
+
+        // Wait for WelcomeActivity to load
+        device.wait(Until.hasObject(By.textContains("Hi there! Your role is:")), 5000);
+
+        // Click the "Retrieve Credentials" button
+        UiObject retrieveButton = device.findObject(new UiSelector().text("RETRIEVE CREDENTIALS"));
+        retrieveButton.click();
+
+        // Wait for Snackbar message
+        device.wait(Until.hasObject(By.textStartsWith("Email: test.user@dal.ca")), 5000);
+
+        // heck if retrieved credentials are correctly displayed
+        UiObject emailLabel = device.findObject(new UiSelector().textStartsWith("Email: test.user@dal.ca"));
+        assertTrue("Retrieved credentials not found!", emailLabel.exists());
     }
+
 }

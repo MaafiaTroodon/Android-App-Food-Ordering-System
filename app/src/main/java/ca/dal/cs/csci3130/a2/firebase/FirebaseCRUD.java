@@ -11,11 +11,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class FirebaseCRUD {
     private final DatabaseReference databaseReference;
-    private String extractedEmailAddress;
 
     public FirebaseCRUD() {
-        // Initialize Firebase with the correct database URL
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://foodorderingapp-798a4-default-rtdb.firebaseio.com/");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.databaseReference = database.getReference("Users");
     }
 
@@ -58,6 +56,7 @@ public class FirebaseCRUD {
         void onCallback(User user);
     }
 
+    // ✅ FIXED: Added missing User class
     public static class User {
         public String email;
         public String password;

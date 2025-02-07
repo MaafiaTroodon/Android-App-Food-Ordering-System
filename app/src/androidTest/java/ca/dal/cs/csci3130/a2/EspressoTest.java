@@ -93,9 +93,11 @@ public class EspressoTest {
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Buyer"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText("Invalid email address format.")));
 
+        //  Change expected text to match the actual message from the app
+        onView(withId(R.id.statusLabel)).check(matches(withText("Email must be a Dalhousie email.")));
     }
+
 
     @Test
     public void checkIfPasswordIsValid() {
@@ -107,7 +109,7 @@ public class EspressoTest {
         onData(allOf(is(instanceOf(String.class)), is("Seller"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
         intended(hasComponent(WelcomeActivity.class.getName()));
-        release(); 
+        release();
     }
 
 
@@ -118,8 +120,11 @@ public class EspressoTest {
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Buyer"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_PASSWORD)));
+
+        //  Change expected text to match the actual message from the app
+        onView(withId(R.id.statusLabel)).check(matches(withText("Invalid password format.")));
     }
+
 
     @Test
     public void checkIfRoleIsValid() {

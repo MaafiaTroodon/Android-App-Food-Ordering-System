@@ -23,8 +23,9 @@ public class CredentialValidator {
 
 
     public boolean isValidPassword(String password) {
-        return password.matches(PASSWORD_REGEX);
+        return password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$");
     }
+
 
 
 

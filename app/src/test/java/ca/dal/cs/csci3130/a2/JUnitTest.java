@@ -53,11 +53,12 @@ public class JUnitTest {
 
     @Test
     public void checkIfPasswordIsNotValid() {
-        assertFalse(validator.isValidPassword("pa!1223"));
-        assertFalse(validator.isValidPassword("paws12#"));
-        assertFalse(validator.isValidPassword("passwor@"));
-        assertFalse(validator.isValidPassword("1234567!@"));
+        assertFalse(validator.isValidPassword("pa!1223")); //  Too short (7 chars)
+        assertFalse(validator.isValidPassword("password@")); //  Missing a digit
+        assertFalse(validator.isValidPassword("1234567!@")); //  Missing a letter
+        assertFalse(validator.isValidPassword("passw12")); //  Missing a special character
     }
+
 
     @Test
     public void checkIfRoleIsValid() {

@@ -14,6 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.hamcrest.Matchers.allOf;
@@ -128,13 +129,29 @@ public class EspressoTest {
 
     @Test
     public void checkIfRoleIsValid() {
+        init(); // Initialize Espresso Intents
+
         onView(withId(R.id.emailBox)).perform(typeText("abc.123@dal.ca"));
         onView(withId(R.id.passwordBox)).perform(typeText("pass123!@"));
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Buyer"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText("")));
+
+        // Wait until registration completes
+        IdlingRegistry.getInstance().register(MainActivity.idlingResource);
+
+        // Check if WelcomeActivity was opened
+        intended(hasComponent(WelcomeActivity.class.getName()));
+
+        // Check the welcome message
+        onView(withId(R.id.welcomeLabel)).check(matches(withText("Hi there! Your role is: Buyer. A welcome email was sent to abc.123@dal.ca.")));
+
+        IdlingRegistry.getInstance().unregister(MainActivity.idlingResource);
+        release(); // Release Espresso Intents
     }
+
+
+
 
     @Test
     public void checkIfRoleIsNotValid() {
@@ -143,7 +160,10 @@ public class EspressoTest {
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Select your role"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_ROLE)));
+
+        // Check for the actual error message string, not just R.string reference
+        onView(withId(R.id.statusLabel)).check(matches(withText("Invalid role selection.")));
     }
+
 
 }

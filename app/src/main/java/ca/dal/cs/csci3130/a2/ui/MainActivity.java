@@ -85,33 +85,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        public static final CountingIdlingResource idlingResource = new CountingIdlingResource("REGISTRATION");
+    public static final CountingIdlingResource idlingResource = new CountingIdlingResource("REGISTRATION");
 
-        @Override
-        public void onClick(View view) {
-            String emailAddress = getEmailAddress();
-            String password = getPassword();
-            String role = getRole();
+    @Override
+    public void onClick(View view) {
+        String emailAddress = getEmailAddress();
+        String password = getPassword();
+        String role = getRole();
 
-            CredentialValidator validator = new CredentialValidator();
+        CredentialValidator validator = new CredentialValidator();
 
-            if (emailAddress.isEmpty()) {
-                setStatusMessage("Email address cannot be empty.");
-            } else if (!validator.isValidEmailAddress(emailAddress)) {
-                setStatusMessage("Invalid email address format.");
-            } else if (!validator.isDALEmailAddress(emailAddress)) {
-                setStatusMessage("Email must be a Dalhousie email.");
-            } else if (!validator.isValidPassword(password)) {
-                setStatusMessage("Invalid password format.");
-            } else if (!validator.isValidRole(role)) {
-                setStatusMessage("Invalid role selection.");
-            } else {
-                idlingResource.increment(); // 🚀 Mark as busy
-                crud.saveUser(emailAddress, password, role);
-                move2WelcomeActivity(getWelcomeMessage(emailAddress, role), emailAddress);
-                idlingResource.decrement(); // ✅ Mark as idle
-            }
+        if (emailAddress.isEmpty()) {
+            setStatusMessage("Email address cannot be empty.");
+        } else if (!validator.isValidEmailAddress(emailAddress)) {
+            setStatusMessage("Invalid email address format.");
+        } else if (!validator.isDALEmailAddress(emailAddress)) {
+            setStatusMessage("Email must be a Dalhousie email.");
+        } else if (!validator.isValidPassword(password)) {
+            setStatusMessage("Invalid password format.");
+        } else if (!validator.isValidRole(role)) {
+            setStatusMessage("Invalid role selection.");
+        } else {
+            idlingResource.increment(); // 🚀 Mark as busy
+            crud.saveUser(emailAddress, password, role);
+            move2WelcomeActivity(getWelcomeMessage(emailAddress, role), emailAddress);
+            idlingResource.decrement(); // ✅ Mark as idle
         }
+    }
+
 
 
 

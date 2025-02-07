@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.espresso.idling.CountingIdlingResource;
+
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import ca.dal.cs.csci3130.a2.R;
 import ca.dal.cs.csci3130.a2.util.PasswordUtility;
 import com.google.firebase.FirebaseApp;
 import android.util.Log;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -79,30 +82,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return "Hi there! Your role is: " + role + ". A welcome email was sent to " + emailAddress + ".";
     }
 
-    @Override
-    public void onClick(View view) {
-        String emailAddress = getEmailAddress();
-        String password = getPassword();
-        String role = getRole();
 
-        CredentialValidator validator = new CredentialValidator();
 
-        if (emailAddress.isEmpty()) {
-            setStatusMessage("Email address cannot be empty.");
-        } else if (!validator.isValidEmailAddress(emailAddress)) {
-            setStatusMessage("Invalid email address format.");
-        } else if (!validator.isDALEmailAddress(emailAddress)) {
-            setStatusMessage("Email must be a Dalhousie email.");
-        } else if (!validator.isValidPassword(password)) {
-            setStatusMessage("Invalid password format.");
-        } else if (!validator.isValidRole(role)) {
-            setStatusMessage("Invalid role selection.");
-        } else {
-            crud.saveUser(emailAddress, password, role);
-            setStatusMessage("");
-            move2WelcomeActivity(getWelcomeMessage(emailAddress, role), emailAddress);
+
+        public static final CountingIdlingResource idlingResource = new CountingIdlingResource("REGISTRATION");
+
+        @Override
+        public void onClick(View view) {
+            String emailAddress = getEmailAddress();
+            String password = getPassword();
+            String role = getRole();
+
+            CredentialValidator validator = new CredentialValidator();
+
+            if (emailAddress.isEmpty()) {
+                setStatusMessage("Email address cannot be empty.");
+            } else if (!validator.isValidEmailAddress(emailAddress)) {
+                setStatusMessage("Invalid email address format.");
+            } else if (!validator.isDALEmailAddress(emailAddress)) {
+                setStatusMessage("Email must be a Dalhousie email.");
+            } else if (!validator.isValidPassword(password)) {
+                setStatusMessage("Invalid password format.");
+            } else if (!validator.isValidRole(role)) {
+                setStatusMessage("Invalid role selection.");
+            } else {
+                idlingResource.increment(); // 🚀 Mark as busy
+                crud.saveUser(emailAddress, password, role);
+                move2WelcomeActivity(getWelcomeMessage(emailAddress, role), emailAddress);
+                idlingResource.decrement(); // ✅ Mark as idle
+            }
         }
-    }
+
+
 
     protected void setStatusMessage(String message) {
         TextView statusLabel = findViewById(R.id.statusLabel);

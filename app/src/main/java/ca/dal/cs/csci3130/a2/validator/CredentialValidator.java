@@ -10,17 +10,23 @@ public class CredentialValidator {
         return emailAddress.trim().isEmpty();
     }
 
-    public static boolean isValidEmailAddress(String emailAddress) {
-        return PatternsCompat.EMAIL_ADDRESS.matcher(emailAddress).matches();
+    public boolean isValidEmailAddress(String email) {
+        return email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     }
 
-    public static boolean isDALEmailAddress(String emailAddress) {
-        return emailAddress.toLowerCase().matches("^[a-zA-Z0-9._%+-]+@dal\\.ca$");
+
+    public boolean isDALEmailAddress(String email) {
+        return email.endsWith("@dal.ca");
     }
 
-    public static boolean isValidPassword(String password) {
+
+
+
+    public boolean isValidPassword(String password) {
         return password.matches(PASSWORD_REGEX);
     }
+
+
 
     public static boolean isValidRole(String role) {
         return role.equals("Buyer") || role.equals("Seller");

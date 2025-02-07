@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <!--string constants used by the application-->
     <string name="EMPTY_EMAIL_ADDRESS">Empty email address</string>
-    <string name="INVALID_EMAIL_ADDRESS">Invalid email address</string>
+    <string name="INVALID_EMAIL_ADDRESS">Invalid email address format.</string>
     <string name="INVALID_DAL_EMAIL">Invalid DAL email address</string>
     <string name="INVALID_PASSWORD">Invalid password</string>
     <string name="INVALID_ROLE">Invalid user role</string>

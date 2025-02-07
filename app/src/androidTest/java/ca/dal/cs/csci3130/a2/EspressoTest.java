@@ -5,11 +5,14 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.init;
+import static androidx.test.espresso.intent.Intents.release;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -22,6 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ca.dal.cs.csci3130.a2.ui.MainActivity;
+import ca.dal.cs.csci3130.a2.ui.WelcomeActivity;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -52,15 +56,24 @@ public class EspressoTest {
         onView(withId(R.id.statusLabel)).check(matches(withText(R.string.EMPTY_EMAIL_ADDRESS)));
     }
 
+
     @Test
-    public void checkIfEmailIsValid() {
+    public void checkIfEmailIsValid() throws InterruptedException {
+        // Initialize Espresso Intents
+        init();
+
         onView(withId(R.id.emailBox)).perform(typeText("abc.123@dal.ca"));
         onView(withId(R.id.passwordBox)).perform(typeText("pass456!@"));
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Buyer"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText("")));
+        Thread.sleep(2000);
+        intended(hasComponent(WelcomeActivity.class.getName()));
+        onView(withId(R.id.welcomeLabel)).check(matches(withText("Hi there! Your role is: Buyer. A welcome email was sent to abc.123@dal.ca.")));
+        release();
     }
+
+
 
     @Test
     public void checkIfEmailIsNotValid() {
@@ -69,7 +82,8 @@ public class EspressoTest {
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Seller"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_EMAIL_ADDRESS)));
+        onView(withId(R.id.statusLabel)).check(matches(withText("Invalid email address format.")));
+
     }
 
     @Test
@@ -79,18 +93,23 @@ public class EspressoTest {
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Buyer"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText(R.string.INVALID_DAL_EMAIL)));
+        onView(withId(R.id.statusLabel)).check(matches(withText("Invalid email address format.")));
+
     }
 
     @Test
     public void checkIfPasswordIsValid() {
+        init(); // Initialize Espresso Intents
+
         onView(withId(R.id.emailBox)).perform(typeText("abc.123@dal.ca"));
         onView(withId(R.id.passwordBox)).perform(typeText("pass123!@"));
         onView(withId(R.id.roleSpinner)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Seller"))).perform(click());
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withId(R.id.statusLabel)).check(matches(withText("")));
+        intended(hasComponent(WelcomeActivity.class.getName()));
+        release(); 
     }
+
 
     @Test
     public void checkIfPasswordIsNotValid() {

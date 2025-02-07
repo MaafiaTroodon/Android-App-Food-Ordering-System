@@ -8,13 +8,15 @@
     tools:context=".ui.MainActivity">
 
     <LinearLayout
+        android:id="@+id/mainContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
-        <TextView
+
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"

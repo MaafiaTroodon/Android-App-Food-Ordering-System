@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-appcheck'
+    implementation 'androidx.test.espresso:espresso-intents:3.6.1'
 
     // JUnit (Unit Testing)
     testImplementation 'junit:junit:4.13.2'

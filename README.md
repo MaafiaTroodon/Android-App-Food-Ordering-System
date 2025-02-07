@@ -1,6 +1,6 @@
 # 📌 Mobile Application for Account Registration & Authentication
 
-### 🏆 Software Engineering Project - Assignment 2
+### 🏆 Software Engineering Project 
 ### 📅 Winter 2025 | Developer: **Malhar Mahajan**  
 ---
 ## 📖 Overview
